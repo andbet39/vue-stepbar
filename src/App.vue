@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
+    <h1>Terz Step Bar</h1>
     <HelloWorld/>
   </div>
 </template>

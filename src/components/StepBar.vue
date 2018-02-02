@@ -1,7 +1,7 @@
 <template>
     <div>
 <ol class="progress">
-    <li v-for="(step,index) in steps" :data-step="index" :class="{ 'is-active' : step.active,'is-complete' : step.completed }">
+    <li @click="_onStepClick(step)" v-for="(step,index) in steps" :data-step="index" :class="{ 'is-active' : step.active,'is-complete' : step.completed,'is-failed' : step.failed }">
         {{step.title}}
     </li>
 </ol>
@@ -10,22 +10,17 @@
 
 <script>
 export default {
+  props:['steps','onStepClick'],
+
   data: function () {
     return {
-      steps: [
-      {id:'ST1','title': 'Step 1',completed:true,active:false},
-      {id:'ST2','title': 'Step 2',completed:true,active:false},
-      {id:'ST3','title': 'Step 3',completed:true,active:false},
-      {id:'ST4','title': 'Step 4',completed:false,active:true},
-      {id:'ST5','title': 'Step 5',completed:false,active:false},
-      {id:'ST6','title': 'Step 6',completed:false,active:false},
-      {id:'ST7','title': 'Step 6',completed:false,active:false},
-      {id:'ST8','title': 'Step 7',completed:false,active:false},
-      {id:'ST9','title': 'Step 8',completed:false,active:false},
-      {id:'ST10','title': 'Step 9',completed:false,active:false},
-      {id:'ST11','title': 'Step 10',completed:false,active:false},
-      {id:'ST12','title': 'Step 11',completed:false,active:false},
-      ]
+
+    }
+  },
+  methods:{
+    _onStepClick:function(step){
+      console.log("click on : " + step)
+      this.$emit('stepClick',step)
     }
   }
 }
@@ -45,7 +40,7 @@ export default {
   position: relative;
   display: table-cell;
   text-align: center;
-  font-size: 0.8em;
+  font-size: 0.6em;
 }
 .progress > li:before {
   content: attr(data-step);
@@ -79,6 +74,9 @@ export default {
 .progress > li.is-complete {
   color: #2ECC71;
 }
+.progress > li.is-failed {
+  color: rgb(224, 87, 87);
+}
 .progress > li.is-complete:before, .progress > li.is-complete:after {
   color: #FFF;
   background: #2ECC71;
@@ -89,6 +87,10 @@ export default {
 .progress > li.is-active:before {
   color: #FFF;
   background: #3498DB;
+}
+.progress > li.is-failed:before {
+  color: #FFF;
+  background: rgb(224, 87, 87);;
 }
 
 /**
